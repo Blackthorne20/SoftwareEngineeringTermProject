@@ -20,8 +20,12 @@ public class InstructorSignUpOne extends AppCompatActivity{
 
     }
 
-    public void onNext(View view){
-        startActivity(new Intent(this, InstructorSignUpTwo.class));
+    public void onNext(View view) {
+
+        Intent intent = new Intent(InstructorSignUpOne.this, InstructorSignUpTwo.class);
+        intent.putExtra("username", etUsername.getText().toString());
+        intent.putExtra("password", etPassword.getText().toString());
+        startActivity(intent);
     }
 
 }

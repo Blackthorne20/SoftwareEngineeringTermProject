@@ -9,10 +9,15 @@ import android.widget.EditText;
 
 public class InstructorSignUpTwo extends AppCompatActivity{
     EditText etFirstname, etLastname, etInstructorid, etEmail;
+    String username, password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_instructor_sign_up_two);
+
+        Intent intent = getIntent();
+        username = intent.getStringExtra("username");
+        password = intent.getStringExtra("password");
 
         etFirstname = (EditText) findViewById(R.id.etFirstname);
         etLastname = (EditText) findViewById(R.id.etLastname);
@@ -22,7 +27,18 @@ public class InstructorSignUpTwo extends AppCompatActivity{
     }
 
     public void onRegister(View view){
-        //startActivity(new Intent(this, StudentSignUpTwo.class));
+        String str_username = username;
+        String str_password = password;
+        String str_firstname = etFirstname.getText().toString();
+        String str_lastname = etLastname.getText().toString();
+        String str_mnumber = etInstructorid.getText().toString();
+        String str_Email = etEmail.getText().toString();
+        String type = "Register";
+
+        //NEED PHP FOR INSERTING TO INSTRUCTOR TABLE
+        //BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        //backgroundWorker.execute(type,str_username,str_firstname,str_lastname,str_mnumber,str_Email,str_password);
+        startActivity(new Intent(this, Login.class));
     }
     public void onPrevious(View view){
         startActivity(new Intent(this, InstructorSignUpOne.class));

@@ -9,13 +9,12 @@ import android.widget.Button;
 import android.widget.EditText;
 
 public class StudentSignUpTwo extends AppCompatActivity {
-    EditText etUsername, etFirstname, etLastname, etMnumber, etEmail, etPassword;
+    EditText etFirstname, etLastname, etMnumber, etEmail;
     String username, password;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_sign_up_two);
-
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
@@ -40,7 +39,6 @@ public class StudentSignUpTwo extends AppCompatActivity {
         backgroundWorker.execute(type,str_username,str_firstname,str_lastname,str_mnumber,str_Email,str_password);
 
         startActivity(new Intent(this, Login.class));
-
     }
 
     public void onPrevious(View view){
