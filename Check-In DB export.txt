@@ -1,0 +1,215 @@
+-- phpMyAdmin SQL Dump
+-- version 4.5.4.1deb2ubuntu2
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Feb 24, 2018 at 05:36 PM
+-- Server version: 5.7.21-0ubuntu0.16.04.1
+-- PHP Version: 7.0.22-0ubuntu0.16.04.1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `Check-In`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `class`
+--
+
+CREATE TABLE `class` (
+  `classID` varchar(20) NOT NULL,
+  `classroomID` varchar(100) DEFAULT NULL,
+  `timeSlotID` varchar(20) DEFAULT NULL,
+  `Iusername` varchar(20) DEFAULT NULL,
+  `className` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `class`
+--
+
+INSERT INTO `class` (`classID`, `classroomID`, `timeSlotID`, `Iusername`, `className`) VALUES
+('69420', '1234', '2', 'bwei', 'Software Eng.');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `classroom`
+--
+
+CREATE TABLE `classroom` (
+  `classroomID` varchar(100) NOT NULL,
+  `building` varchar(20) DEFAULT NULL,
+  `roomNumber` int(11) DEFAULT NULL,
+  `schoolAc` varchar(3) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `classroom`
+--
+
+INSERT INTO `classroom` (`classroomID`, `building`, `roomNumber`, `schoolAc`) VALUES
+('1234', 'BO', 320, 'MSU');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `instructor`
+--
+
+CREATE TABLE `instructor` (
+  `Iusername` varchar(20) NOT NULL,
+  `firstName` varchar(20) DEFAULT NULL,
+  `lastName` varchar(20) DEFAULT NULL,
+  `instructor_id` varchar(9) DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL,
+  `adminFlag` tinyint(1) DEFAULT '1',
+  `IPassword` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `instructor`
+--
+
+INSERT INTO `instructor` (`Iusername`, `firstName`, `lastName`, `instructor_id`, `email`, `adminFlag`, `IPassword`) VALUES
+('bwei', 'Bing', 'Wei', '69', 'bingwei@yahoo.com', 1, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student`
+--
+
+CREATE TABLE `student` (
+  `sUsername` varchar(20) NOT NULL,
+  `firstName` varchar(20) NOT NULL,
+  `lastName` varchar(20) NOT NULL,
+  `student_id` varchar(9) NOT NULL,
+  `email` varchar(30) NOT NULL,
+  `adminFlag` tinyint(1) DEFAULT '0',
+  `sPassword` varchar(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student`
+--
+
+INSERT INTO `student` (`sUsername`, `firstName`, `lastName`, `student_id`, `email`, `adminFlag`, `sPassword`) VALUES
+('kellis', 'Kevin', 'Ellis', 'M20113763', 'kellis224@yahoo.com', 0, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `takes`
+--
+
+CREATE TABLE `takes` (
+  `sUsername` varchar(20) NOT NULL,
+  `classID` varchar(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `takes`
+--
+
+INSERT INTO `takes` (`sUsername`, `classID`) VALUES
+('kellis', '69420');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `timeSlot`
+--
+
+CREATE TABLE `timeSlot` (
+  `TimeSlotID` varchar(20) NOT NULL,
+  `day` varchar(5) DEFAULT NULL,
+  `timeStart` varchar(4) DEFAULT NULL,
+  `timeEnd` varchar(4) DEFAULT NULL,
+  `semester` varchar(10) DEFAULT NULL,
+  `year` varchar(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `timeSlot`
+--
+
+INSERT INTO `timeSlot` (`TimeSlotID`, `day`, `timeStart`, `timeEnd`, `semester`, `year`) VALUES
+('2', 'F', '1:00', '2:30', 'Spring', '2018');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `class`
+--
+ALTER TABLE `class`
+  ADD PRIMARY KEY (`classID`),
+  ADD KEY `Iusername` (`Iusername`),
+  ADD KEY `classroomID` (`classroomID`),
+  ADD KEY `timeSlotID` (`timeSlotID`);
+
+--
+-- Indexes for table `classroom`
+--
+ALTER TABLE `classroom`
+  ADD PRIMARY KEY (`classroomID`);
+
+--
+-- Indexes for table `instructor`
+--
+ALTER TABLE `instructor`
+  ADD PRIMARY KEY (`Iusername`);
+
+--
+-- Indexes for table `student`
+--
+ALTER TABLE `student`
+  ADD PRIMARY KEY (`sUsername`);
+
+--
+-- Indexes for table `takes`
+--
+ALTER TABLE `takes`
+  ADD PRIMARY KEY (`sUsername`,`classID`),
+  ADD KEY `classID` (`classID`);
+
+--
+-- Indexes for table `timeSlot`
+--
+ALTER TABLE `timeSlot`
+  ADD PRIMARY KEY (`TimeSlotID`);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `class`
+--
+ALTER TABLE `class`
+  ADD CONSTRAINT `class_ibfk_1` FOREIGN KEY (`Iusername`) REFERENCES `instructor` (`Iusername`),
+  ADD CONSTRAINT `class_ibfk_2` FOREIGN KEY (`classroomID`) REFERENCES `classroom` (`classroomID`),
+  ADD CONSTRAINT `class_ibfk_3` FOREIGN KEY (`timeSlotID`) REFERENCES `timeSlot` (`TimeSlotID`);
+
+--
+-- Constraints for table `takes`
+--
+ALTER TABLE `takes`
+  ADD CONSTRAINT `takes_ibfk_1` FOREIGN KEY (`sUsername`) REFERENCES `student` (`sUsername`),
+  ADD CONSTRAINT `takes_ibfk_2` FOREIGN KEY (`classID`) REFERENCES `class` (`classID`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -7,13 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class Login extends AppCompatActivity implements View.OnClickListener {
-
-    Button bLogin;
-    Button bSignup;
-    Button bForgotpassword;
-    EditText etUsername;
-    EditText etPassword;
+public class Login extends AppCompatActivity {
+    EditText etUsername, etPassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,24 +16,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
         etUsername = (EditText) findViewById(R.id.etUsername);
         etPassword = (EditText) findViewById(R.id.etPassword);
-        bLogin = (Button) findViewById(R.id.bLogin);
-        bSignup = (Button) findViewById(R.id.bSignup);
-        bForgotpassword = (Button) findViewById(R.id.bForgotpassword);
 
-        bLogin.setOnClickListener(this);
-        bSignup.setOnClickListener(this);
-        bForgotpassword.setOnClickListener(this);
-}
-    @Override
-    public void onClick(View v){
-        switch(v.getId()){
-            case R.id.bLogin:
-                break;
-            case R.id.bSignup:
-                startActivity(new Intent(this,SignUpAs.class));
-                break;
-            case R.id.bForgotpassword:
-                break;
-        }
     }
+
+    public void onLogin(View view){
+        String username = etUsername.getText().toString();
+        String password = etPassword.getText().toString();
+        String type = "login";
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        backgroundWorker.execute(type,username,password);
+    }
+
+    public void onSignUp(View view){
+        startActivity(new Intent(this, SignUpAs.class));
+    }
+
 }
