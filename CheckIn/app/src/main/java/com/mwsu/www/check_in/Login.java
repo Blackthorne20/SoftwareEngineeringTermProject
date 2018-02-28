@@ -31,4 +31,8 @@ public class Login extends AppCompatActivity {
         startActivity(new Intent(this, SignUpAs.class));
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
 }

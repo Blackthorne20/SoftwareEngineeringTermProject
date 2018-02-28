@@ -1,10 +1,12 @@
 package com.mwsu.www.check_in;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -44,4 +46,5 @@ public class StudentSignUpTwo extends AppCompatActivity {
     public void onPrevious(View view){
         startActivity(new Intent(this, StudentSignUpOne.class));
     }
+
 }

@@ -7,6 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
+import java.util.concurrent.ExecutionException;
+
 public class StudentSignUpOne extends AppCompatActivity{
     EditText etUsername, etPassword, etPasswordConfirm;
     @Override
@@ -20,12 +22,12 @@ public class StudentSignUpOne extends AppCompatActivity{
     }
 
     public void onNext(View view){
-
+        boolean userNotTaken = usernameNotTaken(etUsername);
         boolean EmptyFields = isNotEmpty(etUsername,etPassword,etPasswordConfirm);
         boolean passwordMatch = checkPasswordsMatch();
         boolean passwordIsSecure = checkPassword(etPassword);
 
-        if(EmptyFields && passwordMatch && passwordIsSecure){
+        if(userNotTaken && EmptyFields && passwordMatch && passwordIsSecure){
             Intent intent = new Intent(StudentSignUpOne.this, StudentSignUpTwo.class);
             intent.putExtra("username",etUsername.getText().toString());
             intent.putExtra("password",etPassword.getText().toString());
@@ -77,4 +79,23 @@ public class StudentSignUpOne extends AppCompatActivity{
             return false;
         }
     }
+    private boolean usernameNotTaken(EditText username) {
+        String type = "usercheck";
+        String result = "empty";
+        String user = username.getText().toString();
+        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        try {
+             result = backgroundWorker.execute(type,user).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if(result.equals("User name already taken"))
+            return false;
+        return  true;
+
+    }
 }
+
