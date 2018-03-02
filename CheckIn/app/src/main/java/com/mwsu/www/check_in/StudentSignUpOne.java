@@ -22,67 +22,65 @@ public class StudentSignUpOne extends AppCompatActivity{
     }
 
     public void onNext(View view){
-        boolean userNotTaken = usernameNotTaken(etUsername);
-        boolean EmptyFields = isNotEmpty(etUsername,etPassword,etPasswordConfirm);
-        boolean passwordMatch = checkPasswordsMatch();
-        boolean passwordIsSecure = checkPassword(etPassword);
+        StringBuilder errorMessage = new StringBuilder ();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Errors");
+        builder.setPositiveButton("ok", null);
+        boolean userNotTaken = usernameNotTaken(errorMessage);
+        boolean EmptyFields = isNotEmpty(errorMessage);
+        boolean passwordMatch = checkPasswordsMatch(errorMessage);
+        boolean passwordIsSecure = checkPassword(errorMessage);
+        boolean lengthIsGood = lengthIsGood(errorMessage);
 
-        if(userNotTaken && EmptyFields && passwordMatch && passwordIsSecure){
+        if(userNotTaken && EmptyFields && passwordMatch && passwordIsSecure && lengthIsGood) {
             Intent intent = new Intent(StudentSignUpOne.this, StudentSignUpTwo.class);
-            intent.putExtra("username",etUsername.getText().toString());
-            intent.putExtra("password",etPassword.getText().toString());
+            intent.putExtra("username", etUsername.getText().toString());
+            intent.putExtra("password", etPassword.getText().toString());
             startActivity(intent);
         }
+        else{
+            builder.setMessage(errorMessage);
+            builder.show();
+        }
+
     }
-    private boolean isNotEmpty(EditText usernameField, EditText passwordField, EditText pconfirmField) {
-        if (usernameField.getText().toString().trim().length() > 0 ||
-            passwordField.getText().toString().trim().length() > 0 ||
-            pconfirmField.getText().toString().trim().length() > 0){
+    private boolean isNotEmpty(StringBuilder errorMessage) {
+        if (etUsername.getText().toString().trim().length() > 0 ||
+            etPassword.getText().toString().trim().length() > 0 ||
+            etPasswordConfirm.getText().toString().trim().length() > 0){
             return true;
         }
         else{
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Field Left Blank");
-            builder.setMessage("Every field must be filled");
-            builder.setPositiveButton("ok", null);
-            builder.show();
+            errorMessage.append("\u2022 Every field must be filled \n\n");
             return false;
         }
     }
-    private boolean checkPasswordsMatch(){
+    private boolean checkPasswordsMatch(StringBuilder errorMessage){
         String password = etPassword.getText().toString();
         String passwordCon = etPasswordConfirm.getText().toString();
         if(password.equals(passwordCon)){
             return true;
         }
         else{
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Passwords Do Not Match");
-            builder.setMessage("Enter to same password into the confirm field");
-            builder.setPositiveButton("ok", null);
-            builder.show();
+            errorMessage.append("\u2022 Passwords do not match \n\n");
             return false;
         }
     }
-    private boolean checkPassword(EditText pass){
+    private boolean checkPassword(StringBuilder errorMessage){
         int lengthReq = 5;
         String password = etPassword.getText().toString();
         int length = password.length();
         if(length >= lengthReq )
             return true;
         else{
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Password Is Not Long Enough");
-            builder.setMessage("Password must be 5 or more characters");
-            builder.setPositiveButton("ok", null);
-            builder.show();
+            errorMessage.append("\u2022 Password must be at least 5 characters \n\n");
             return false;
         }
     }
-    private boolean usernameNotTaken(EditText username) {
+    private boolean usernameNotTaken(StringBuilder errorMessage) {
         String type = "usercheck";
         String result = "empty";
-        String user = username.getText().toString();
+        String user = etUsername.getText().toString();
         BackgroundWorker backgroundWorker = new BackgroundWorker(this);
         try {
              result = backgroundWorker.execute(type,user).get();
@@ -92,10 +90,27 @@ public class StudentSignUpOne extends AppCompatActivity{
             e.printStackTrace();
         }
 
-        if(result.equals("User name already taken"))
+        if(result.equals("User name already taken")) {
+            errorMessage.append("\u2022 Username Already Taken \n\n");
             return false;
+        }
         return  true;
+    }
+    private boolean lengthIsGood(StringBuilder errorMessage){
+        int maxUser = 20; //How long a user name can be
+        int maxPass = 20; //How long a password can be
+        String strUser = etUsername.getText().toString();
+        String strPass = etPassword.getText().toString();
 
+        if(strUser.length() > maxUser){
+            errorMessage.append("\u2022 Username must be less than 20 characters \n\n");
+            return false;
+        }
+        if(strPass.length() > maxPass){
+            errorMessage.append("\u2022 Password must be less than 20 characters \n\n");
+            return false;
+        }
+        return true;
     }
 }
 
