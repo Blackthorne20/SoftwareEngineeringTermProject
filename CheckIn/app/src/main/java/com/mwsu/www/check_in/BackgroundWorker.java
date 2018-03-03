@@ -25,8 +25,8 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
     protected String doInBackground(String... params) { //changed void to params
         String type = params[0];
         //10.0.2.2 standard ip address to communicate with local host
-        String login_url = "http://159.65.46.34/Carlos_login.php";
-        String register_url = "http://159.65.46.34/Carlos_register.php";
+        String login_url = "http://159.65.46.34/Login.php";
+        String register_url = "http://159.65.46.34/Register.php";
         String user_register_url = "http://159.65.46.34/user_register.php";
         if(type.equals("login")){
             try {
@@ -143,15 +143,15 @@ public class BackgroundWorker extends AsyncTask<String,Void,String> {
 
     @Override
     protected void onPreExecute() {
-        //alertDialog = new AlertDialog.Builder(context).create();
-        //alertDialog.setTitle("Login Status");
+        alertDialog = new AlertDialog.Builder(context).create();
+        alertDialog.setTitle("Login Status");
     }
 
     @Override
     protected void onPostExecute(String result) {
 
-        //alertDialog.setMessage(result);
-        //alertDialog.show();
+        alertDialog.setMessage(result);
+        alertDialog.show();
 
     }
 

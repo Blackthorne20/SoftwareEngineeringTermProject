@@ -19,9 +19,9 @@
         </activity>
         <activity android:name=".SignUpAs" />
         <activity android:name=".StudentSignUpOne" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".StudentSignUpTwo" />
         <activity android:name=".InstructorSignUpOne" />
+        <activity android:name=".StudentHome" />
         <activity android:name=".InstructorSignUpTwo"></activity>
     </application>
 

@@ -22,15 +22,20 @@ public class Login extends AppCompatActivity {
     public void onLogin(View view){
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
-        String type = "login";
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
-        backgroundWorker.execute(type,username,password);
+        BackgroundLogin backgroundLogin = new BackgroundLogin(this);
+        backgroundLogin.execute(username,password);
+
+        //Decide if to go to student or prof???
+        Intent intent = new Intent(Login.this, StudentHome.class);
+        startActivity(intent);
+
     }
 
     public void onSignUp(View view){
         startActivity(new Intent(this, SignUpAs.class));
     }
 
+    //Get rid of the android back function...
     @Override
     public void onBackPressed() {
 

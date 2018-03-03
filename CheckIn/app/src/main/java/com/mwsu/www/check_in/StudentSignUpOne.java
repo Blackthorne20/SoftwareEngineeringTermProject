@@ -6,7 +6,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
-
 import java.util.concurrent.ExecutionException;
 
 public class StudentSignUpOne extends AppCompatActivity{
@@ -45,8 +44,8 @@ public class StudentSignUpOne extends AppCompatActivity{
 
     }
     private boolean isNotEmpty(StringBuilder errorMessage) {
-        if (etUsername.getText().toString().trim().length() > 0 ||
-            etPassword.getText().toString().trim().length() > 0 ||
+        if (etUsername.getText().toString().trim().length() > 0 &&
+            etPassword.getText().toString().trim().length() > 0 &&
             etPasswordConfirm.getText().toString().trim().length() > 0){
             return true;
         }
@@ -78,12 +77,11 @@ public class StudentSignUpOne extends AppCompatActivity{
         }
     }
     private boolean usernameNotTaken(StringBuilder errorMessage) {
-        String type = "usercheck";
         String result = "empty";
         String user = etUsername.getText().toString();
-        BackgroundWorker backgroundWorker = new BackgroundWorker(this);
+        BackgroundUserCheck backgroundUserCheck = new BackgroundUserCheck(this);
         try {
-             result = backgroundWorker.execute(type,user).get();
+             result = backgroundUserCheck.execute(user).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
