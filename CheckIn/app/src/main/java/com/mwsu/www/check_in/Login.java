@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.concurrent.ExecutionException;
+
 public class Login extends AppCompatActivity {
     EditText etUsername, etPassword;
     @Override
@@ -23,11 +25,20 @@ public class Login extends AppCompatActivity {
         String username = etUsername.getText().toString();
         String password = etPassword.getText().toString();
         BackgroundLogin backgroundLogin = new BackgroundLogin(this);
-        backgroundLogin.execute(username,password);
+        String result = "";
+        try {
+            result = backgroundLogin.execute(username,password).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
         //Decide if to go to student or prof???
-        Intent intent = new Intent(Login.this, StudentHome.class);
-        startActivity(intent);
+        if(result.equals("Login success")) {
+            Intent intent = new Intent(Login.this, StudentHome.class);
+            startActivity(intent);
+        }
 
     }
 
