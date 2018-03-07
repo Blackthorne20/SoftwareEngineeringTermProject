@@ -97,17 +97,17 @@ public class InstructorSignUpOne extends AppCompatActivity{
         return  true;
     }
     private boolean lengthIsGood(StringBuilder errorMessage){
-        int maxUser = 20; //How long a user name can be
-        int maxPass = 20; //How long a password can be
+        int maxUser = 40; //How long a user name can be
+        int maxPass = 40; //How long a password can be
         String strUser = etUsername.getText().toString();
         String strPass = etPassword.getText().toString();
 
         if(strUser.length() > maxUser){
-            errorMessage.append("\u2022 Username must be less than 20 characters \n\n");
+            errorMessage.append("\u2022 Username must be less than 40 characters \n\n");
             return false;
         }
         if(strPass.length() > maxPass){
-            errorMessage.append("\u2022 Password must be less than 20 characters \n\n");
+            errorMessage.append("\u2022 Password must be less than 40 characters \n\n");
             return false;
         }
         return true;

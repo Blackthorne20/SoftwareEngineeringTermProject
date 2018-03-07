@@ -44,8 +44,9 @@ public class StudentSignUpTwo extends AppCompatActivity {
 
         boolean emailNotTaken = emailNotTaken(errorMessage);
         boolean EmptyFields = isNotEmpty(errorMessage);
+        boolean lengthIsgood = lengthIsGood(errorMessage);
 
-        if(emailNotTaken && EmptyFields) {
+        if(emailNotTaken && EmptyFields && lengthIsgood) {
             String result = "empty";
             BackgroundRegisterStudent backgroundRegisterStudent = new BackgroundRegisterStudent(this);
             try {
@@ -105,5 +106,34 @@ public class StudentSignUpTwo extends AppCompatActivity {
             return false;
         }
         return  true;
+    }
+    private boolean lengthIsGood(StringBuilder errorMessage){
+        int maxFirst = 40; //How long a user name can be
+        int maxLast = 40; //How long a password can be
+        int maxMnum = 40;
+        int maxEmail = 50;
+        String strFirst = etFirstname.getText().toString();
+        String strLast = etLastname.getText().toString();
+        String strMnum = etMnumber.getText().toString();
+        String strEmail = etEmail.getText().toString();
+
+
+        if(strFirst.length() > maxFirst){
+            errorMessage.append("\u2022 First name must be less than 40 characters \n\n");
+            return false;
+        }
+        if(strLast.length() > maxLast){
+            errorMessage.append("\u2022 Last name must be less than 40 characters \n\n");
+            return false;
+        }
+        if(strMnum.length() > maxMnum){
+            errorMessage.append("\u2022 Mnumber must be less than 40 characters \n\n");
+            return false;
+        }
+        if(strEmail.length() > maxEmail){
+            errorMessage.append("\u2022 Email must be less than 50 characters \n\n");
+            return false;
+        }
+        return true;
     }
 }
