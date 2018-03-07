@@ -15,6 +15,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import java.util.concurrent.ExecutionException;
+
 public class StudentHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String username;
@@ -27,7 +29,6 @@ public class StudentHome extends AppCompatActivity
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
-
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,13 +48,23 @@ public class StudentHome extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         //Use username to get email and first name + last name
+        String result = "empty";
+        BackgroundGetStuNameandEmail backgroundGetStuNameandEmail = new BackgroundGetStuNameandEmail(this);
+        try {
+            result = backgroundGetStuNameandEmail.execute(username).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        String[] returnWords = result.split("\\s+");   //[0] is first name [1] is last name
+        // [2] is email
         View headerView = navigationView.getHeaderView(0);
         TextView navPersonName = (TextView) headerView.findViewById(R.id.navPersonName);
         TextView navPersonEmail = (TextView) headerView.findViewById(R.id.navPersonEmail);
-        navPersonName.setText("Kevin Ellis");
-        navPersonEmail.setText("kellis224@yahoo.com");
+        navPersonName.setText(returnWords[0] + " " + returnWords[1]);
+        navPersonEmail.setText(returnWords[2]);
     }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

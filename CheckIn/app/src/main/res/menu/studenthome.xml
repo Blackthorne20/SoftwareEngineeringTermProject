@@ -5,10 +5,10 @@
         android:id="@+id/action_options"
         android:orderInCategory="100"
         android:title="Options"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
     <item
         android:id="@+id/action_profile"
         android:orderInCategory="100"
         android:title="Profile"
-        app:showAsAction="never" />
+        app:showAsAction="never"/>
 </menu>
