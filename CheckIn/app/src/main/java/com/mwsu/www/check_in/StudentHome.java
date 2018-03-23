@@ -14,6 +14,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.util.concurrent.ExecutionException;
 
@@ -29,12 +33,14 @@ public class StudentHome extends AppCompatActivity
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(StudentHome.this, QRScanner.class);
+                startActivity(intent);
+
             }
         });
 
@@ -71,7 +77,7 @@ public class StudentHome extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //super.onBackPressed();
         }
     }
 
@@ -106,12 +112,14 @@ public class StudentHome extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_course) {
-            // Handle the course action
-        } else if (id == R.id.nav_absences) {
+        if (id == R.id.nav_absences) {
             // Handle the abseence button
         } else if (id == R.id.nav_logout) {
-            // Handel logout
+            Intent intent = new Intent(StudentHome.this, Login.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
