@@ -21,13 +21,16 @@ public class QRScanner extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         final Activity activity = this;
 
+
         IntentIntegrator integrator = new IntentIntegrator(activity);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
-        integrator.setPrompt("Scan");
+        integrator.setOrientationLocked(true);
+        integrator.setPrompt("");
         integrator.setCameraId(0);
-        integrator.setBeepEnabled(false);
+        integrator.setBeepEnabled(true);
         integrator.setBarcodeImageEnabled(false);
         integrator.initiateScan();
+
 
 
     }
@@ -41,7 +44,12 @@ public class QRScanner extends AppCompatActivity {
                 Toast.makeText(this, "you cancelled the scanning", Toast.LENGTH_LONG).show();
             }
             else{
-                Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(this, result.getContents(), Toast.LENGTH_LONG).show();
+
+                String codeID = result.getContents();
+
+                Intent intent = new Intent(QRScanner.this, StudentHome.class);
+                startActivity(intent);
             }
         }
         else{

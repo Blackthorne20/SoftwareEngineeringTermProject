@@ -13,6 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ import java.util.concurrent.ExecutionException;
 public class StudentHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String username;
+    String codeID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +42,10 @@ public class StudentHome extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //ADD THEM TO A CLASS
                 Intent intent = new Intent(StudentHome.this, QRScanner.class);
                 startActivity(intent);
+
 
             }
         });
@@ -70,6 +76,30 @@ public class StudentHome extends AppCompatActivity
         TextView navPersonEmail = (TextView) headerView.findViewById(R.id.navPersonEmail);
         navPersonName.setText(returnWords[0] + " " + returnWords[1]);
         navPersonEmail.setText(returnWords[2]);
+
+        String result2 = "empty";
+        BackgroundGetCourses backgroundGetCourses = new BackgroundGetCourses(this);
+        try {
+            result2 = backgroundGetCourses.execute(username).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        String[] returnCourses = result2.split("<br />");
+        ListView courses = (ListView) findViewById(R.id.courses);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, returnCourses);
+        courses.setAdapter(adapter);
+        courses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //CHECK THEM INTO THE CLASS THEY SELECTED
+
+                Intent intent = new Intent(StudentHome.this, QRScanner.class);
+                startActivity(intent);
+            }
+        });
+
     }
     @Override
     public void onBackPressed() {
