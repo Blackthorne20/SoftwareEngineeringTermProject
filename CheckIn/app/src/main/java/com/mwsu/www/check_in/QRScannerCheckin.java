@@ -20,8 +20,9 @@ import java.util.concurrent.ExecutionException;
  * Created by Kevin Ellis on 3/23/2018.
  */
 
-public class QRScanner extends AppCompatActivity {
+public class QRScannerCheckin extends AppCompatActivity {
     String username;
+    String className;
 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -29,6 +30,7 @@ public class QRScanner extends AppCompatActivity {
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
+        className = intent.getStringExtra("classname");
 
 
         IntentIntegrator integrator = new IntentIntegrator(activity);
@@ -76,10 +78,10 @@ public class QRScanner extends AppCompatActivity {
                         timeID.append(30);
                     }
                 }
-                BackgroundAddClass backgroundAddClass = new BackgroundAddClass(this);
+                BackgroundCheckIntoClass backgroundCheckIntoClass = new BackgroundCheckIntoClass(this);
                 String result1 = "";
                 try {
-                    result1 = backgroundAddClass.execute(username,classID, timeID.toString()).get();
+                    result1 = backgroundCheckIntoClass.execute(username,classID, timeID.toString(),className).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -88,7 +90,7 @@ public class QRScanner extends AppCompatActivity {
 
 
                 //SLOW AF NEEDS FIXED?????
-                Intent intent = new Intent(QRScanner.this, StudentHome.class);
+                Intent intent = new Intent(QRScannerCheckin.this, StudentHome.class);
                 startActivity(intent);
             }
         }

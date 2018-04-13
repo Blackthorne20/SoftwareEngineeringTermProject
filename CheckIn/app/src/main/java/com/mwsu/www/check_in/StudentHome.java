@@ -27,7 +27,6 @@ import java.util.concurrent.ExecutionException;
 public class StudentHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String username;
-    String codeID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +41,9 @@ public class StudentHome extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //ADD THEM TO A CLASS
+
                 Intent intent = new Intent(StudentHome.this, QRScanner.class);
+                intent.putExtra("username", username);
                 startActivity(intent);
 
 
@@ -87,7 +87,7 @@ public class StudentHome extends AppCompatActivity
             e.printStackTrace();
         }
         String[] returnCourses = result2.split("<br />");
-        ListView courses = (ListView) findViewById(R.id.courses);
+        final ListView courses = (ListView) findViewById(R.id.courses);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, returnCourses);
         courses.setAdapter(adapter);
         courses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -95,7 +95,11 @@ public class StudentHome extends AppCompatActivity
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 //CHECK THEM INTO THE CLASS THEY SELECTED
 
-                Intent intent = new Intent(StudentHome.this, QRScanner.class);
+                String className = (String)adapterView.getItemAtPosition(i);
+
+                Intent intent = new Intent(StudentHome.this, QRScannerCheckin.class);
+                intent.putExtra("username", username);
+                intent.putExtra("classname", className);
                 startActivity(intent);
             }
         });

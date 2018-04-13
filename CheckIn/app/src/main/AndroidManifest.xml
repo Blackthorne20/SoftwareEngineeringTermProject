@@ -24,6 +24,7 @@
         <activity android:name=".StudentHome" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".QRScanner" />
+        <activity android:name=".QRScannerCheckin" />
         <activity android:name=".InstructorSignUpTwo"></activity>
     </application>
 
