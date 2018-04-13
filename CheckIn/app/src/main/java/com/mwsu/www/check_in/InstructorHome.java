@@ -24,31 +24,31 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.util.concurrent.ExecutionException;
 
-public class StudentHome extends AppCompatActivity
+public class InstructorHome extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     String username;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_student_home);
+        setContentView(R.layout.activity_instructor_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+/*        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(StudentHome.this, QRScanner.class);
+                Intent intent = new Intent(InstructorHome.this, QRScanner.class);
                 intent.putExtra("username", username);
                 startActivity(intent);
 
 
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -97,7 +97,7 @@ public class StudentHome extends AppCompatActivity
 
                 String className = (String)adapterView.getItemAtPosition(i);
 
-                Intent intent = new Intent(StudentHome.this, QRScannerCheckin.class);
+                Intent intent = new Intent(InstructorHome.this, QRScannerCheckin.class);
                 intent.putExtra("username", username);
                 intent.putExtra("classname", className);
                 startActivity(intent);
@@ -118,7 +118,7 @@ public class StudentHome extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.studenthome, menu);
+        getMenuInflater().inflate(R.menu.instructorhome, menu);
         return true;
     }
 
@@ -149,7 +149,7 @@ public class StudentHome extends AppCompatActivity
         if (id == R.id.nav_absences) {
             // Handle the abseence button
         } else if (id == R.id.nav_logout) {
-            Intent intent = new Intent(StudentHome.this, Login.class);
+            Intent intent = new Intent(InstructorHome.this, Login.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

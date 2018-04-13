@@ -40,8 +40,13 @@ public class Login extends AppCompatActivity {
         }
 
         //Decide if to go to student or prof???
-        if(result.equals("Login success")) {
+        if(result.equals("Student Login success")) {
             Intent intent = new Intent(Login.this, StudentHome.class);
+            intent.putExtra("username", etUsername.getText().toString());
+            startActivity(intent);
+        }
+        else if(result.equals("Instructor Login success")) {
+            Intent intent = new Intent(Login.this, InstructorHome.class);
             intent.putExtra("username", etUsername.getText().toString());
             startActivity(intent);
         }

@@ -22,6 +22,7 @@
         <activity android:name=".StudentSignUpTwo" />
         <activity android:name=".InstructorSignUpOne" />
         <activity android:name=".StudentHome" />
+        <activity android:name=".InstructorHome" />
         <activity android:name=".ForgotPassword" />
         <activity android:name=".QRScanner" />
         <activity android:name=".QRScannerCheckin" />
